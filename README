@@ -1,1 +1,14 @@
 docker run -d --name lnpenvoy -p 80:80 -v `pwd`/envoy.yaml:/etc/envoy/envoy.yaml envoyproxy/envoy-alpine sh -c  "/usr/local/bin/envoy -c /etc/envoy/envoy.yaml -l debug"
+
+
+To spin up nginx containers -
+
+docker run --name mynginx1 --cpus=4 -p 80:80 -d nginx
+docker run --name mynginx2 --cpus=4 -p 8080:80 -d nginx
+
+Replace the cluster IPs in the envoy.yaml file, with the IP(s) of the server(s) that you use to spin up the above nginx containers. You can set the number of cpus higher if the servers have more cpus.
+
+You can find the number of cpus using (on linux) -
+
+cat /proc/cpuinfo | grep processor
+
