@@ -2,7 +2,7 @@ static_resources:
   listeners:
   - name: listener_0
     address:
-      socket_address: { address: 0.0.0.0, port_value: 80 }
+      socket_address: { address: 0.0.0.0, port_value: 443 }
 
     filter_chains:
     - filters:
@@ -25,7 +25,13 @@ static_resources:
                     inline_string: "Welcome to the demo!"
           http_filters:
           - name: envoy.router
-
+      tls_context:
+        common_tls_context:
+          tls_certificates:
+            - certificate_chain:
+                filename: "/etc/example-com.crt"
+              private_key:
+                filename: "/etc/example-com.key"
   clusters:
   - name: nginx_cluster
     connect_timeout: 0.25s

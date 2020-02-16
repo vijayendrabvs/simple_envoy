@@ -10,19 +10,19 @@ static_resources:
         config:
           codec_type: auto
           stat_prefix: ingress_http
+          access_log:
+          - name: envoy.file_access_log
+            config:
+              path: "/var/log/envoy_access.log"
           route_config:
             name: local_route
             virtual_hosts:
             - name: backend
-              domains:
-                - "*"
               routes:
               - match:
                   prefix: "/"
-                direct_response:
-                  status: 200
-                  body:
-                    inline_string: "Welcome to the demo!"
+                route:
+                  cluster: nginx_cluster
           http_filters:
           - name: envoy.router
 
@@ -43,4 +43,3 @@ admin:
     socket_address:
       address: 0.0.0.0
       port_value: 8001
-
